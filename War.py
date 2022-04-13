@@ -1,18 +1,14 @@
 import random
-from tabnanny import check
-from tkinter import Y
-from typing import Type
 
 
 values = {'Dos':2, 'Tres':3, 'Cuatro':4, 'Cinco':5, 'Seis':6, 'Siete':7, 'Ocho':8, 'Nueve':9, 'Diez':10, 'Sota':11, 'Reina':12, 'Rey':13, 'As':14}
-#Los valores de las cartas del juego
+#?Los valores de las cartas del juego
 suits = ('Corazones', 'Diamante', 'Pica', 'Trebol')
-#El palo de la carta
+#?El palo de la carta
 ranks = ('Dos', 'Tres', 'Cuatro', 'Cinco', 'Seis', 'Siete', 'Ocho', 'Nueve', 'Diez', 'Sota', 'Reina', 'Rey', 'As')
-#El rango de los valores
+#?El rango de los valores
 
-class Card:        
-#Se crea la clase de cartas para poder tener el valor de cada carta junto a su palo
+class Card: #*Se crea la clase de cartas para poder tener el valor de cada carta junto a su palo
     def __init__(self,suit,rank):
         self.suit = suit
         self.rank = rank
@@ -21,7 +17,7 @@ class Card:
     def __str__(self):
         return self.rank + " de " + self.suit
 
-class Deck:
+class Deck: #*La clase mazo se usara para crear los mazos junto a la clase Card
 
     def __init__(self):
         
@@ -43,7 +39,7 @@ class Deck:
             print(card)
 
 
-class Player:
+class Player: #*La clase Player se crea para poder tener dos jugadores con sus respectivos mazos
 
     def __init__(self, name):
 
@@ -72,13 +68,19 @@ class Player:
 
 def logica():
 
-    nombre1 = 'Mauri'#input('Ingrese el nombre del primer jugador:\n')
-    nombre2 = 'Joaco'#input('Ingrese el nombre del segundo jugador:\n')
+    #*Se pido lo nombres de los jugadores para poder crear una instancia de Card
+
+    nombre1 = input('Ingrese el nombre del primer jugador:\n')
+    nombre2 = input('Ingrese el nombre del segundo jugador:\n')
     jugador1 = Player(nombre1)
     jugador2 = Player(nombre2)
 
+    #* Se crea el mazo y se mezcla
+
     new_deck = Deck()
     new_deck.shuffle()
+
+    #* Se reparte las cartas a los jugadores
 
     for i in range(26):
         
@@ -99,15 +101,10 @@ def logica():
         cartas.append(jugador1.remove_one())
         cartas.append(jugador2.remove_one())
         
-        
-
-        
-
         while True:
 
-            numcarta = len(cartas)
 
-            if values[cartas[numcarta-2].rank] > values[cartas[numcarta-1].rank]:
+            if values[cartas[-2].rank] > values[cartas[-1].rank]:
                 random.shuffle(cartas)
                 jugador1.add_cards(cartas)
                 print(f'{jugador1.name} gano\n')
@@ -115,7 +112,7 @@ def logica():
                 break
                 
 
-            elif values[cartas[numcarta-2].rank] < values[cartas[numcarta-1].rank]:
+            elif values[cartas[-2].rank] < values[cartas[-1].rank]:
                 random.shuffle(cartas)
                 jugador2.add_cards(cartas)
                 print(f'{jugador2.name} gano\n')
@@ -123,7 +120,7 @@ def logica():
                 break
             
 
-            elif values[cartas[numcarta-2].rank] == values[cartas[numcarta-1].rank] :
+            elif values[cartas[-2].rank] == values[cartas[-1].rank] :
                 if len(jugador1.all_cards)< 3:
                     jugador2.all_cards.extend(jugador1.all_cards)
                     break
